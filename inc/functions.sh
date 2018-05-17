@@ -128,15 +128,18 @@ function f_install_nginx() {
 
 function f_install_php() {
   #PHP
-  apt-get -y install php-cli php-fpm php-mysql php-mbstring php-gd
-  if [ $distro == "Ubuntu"  && $distro_edition == "18.04" ]; then
-    apt-get -y install php-pear php-dev
+  if [ $distro == "Debian" && $distro_edition == "8" ]; then
+    apt-get -y install php5-cli php5-fpm php5-mysqlnd php5-gd php5-mcrypt
+  elif [ $distro == "Ubuntu" && $distro_edition == "14.04" ]; then
+    apt-get -y install php5-cli php5-fpm php5-mysqlnd php5-mbstring php5-gd php5-mcrypt
+  elif [ $distro == "Ubuntu" && $distro_edition == "18.04" ]; then
+    apt-get -y install php-cli php-fpm php-mysql php-mbstring php-gd php-pear php-dev
     apt-get -y install libmcrypt-dev libreadline-dev
-    printf "\n" | sudo pecl install mcrypt-1.0.1
+    printf "\n" | pecl install mcrypt-1.0.1
     bash -c "echo extension=mcrypt.so > /etc/php/7.2/fpm/conf.d/20-mcrypt.ini"
     bash -c "echo extension=mcrypt.so > /etc/php/7.2/cli/conf.d/20-mcrypt.ini"
   else
-    apt-get -y install php-mcrypt
+    apt-get -y install apt-get -y install php-cli php-fpm php-mysql php-mbstring php-gd php-mcrypt
   fi
 }
 
