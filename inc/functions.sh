@@ -107,10 +107,10 @@ function f_install_hackfont() {
 function f_install_gui() {
   #Install xfce, vnc server, sublime-text
   apt-get update
-  apt-get -y install xfce4 xfce4-goodies gnome-icon-theme 
+  apt-get -y install xfce4 xfce4-goodies gnome-icon-theme
   f_install_sublimetext
   f_install_vncserver
-  f_install_hackfont  
+  f_install_hackfont
 }
 
 function f_install_essential_packages() {
@@ -128,11 +128,11 @@ function f_install_nginx() {
 
 function f_install_php() {
   #PHP
-  if [ $distro == "Debian" && $distro_edition == "8" ]; then
+  if [ $distro == "Debian" && $distro_code == "jessie" ]; then
     apt-get -y install php5-cli php5-fpm php5-mysqlnd php5-gd php5-mcrypt
-  elif [ $distro == "Ubuntu" && $distro_edition == "14.04" ]; then
+  elif [ $distro == "Ubuntu" && $distro_code == "trusty" ]; then
     apt-get -y install php5-cli php5-fpm php5-mysqlnd php5-mbstring php5-gd php5-mcrypt
-  elif [ $distro == "Ubuntu" && $distro_edition == "18.04" ]; then
+  elif [ $distro == "Ubuntu" && $distro_code == "bionic" ]; then
     apt-get -y install php-cli php-fpm php-mysql php-mbstring php-gd php-pear php-dev
     apt-get -y install libmcrypt-dev libreadline-dev
     printf "\n" | pecl install mcrypt-1.0.1
