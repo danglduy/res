@@ -63,12 +63,6 @@ v_install_openvpn=false
 distro="$(lsb_release -i -s)"
 distro_edition="$(lsb_release -r -s)"
 
-# Check Distro. If not Debian/Ubuntu, exit!
-if [ $distro != "Ubuntu" ] && [ $distro != "Debian" ]; then
-  echo "This script supports Debian or Ubuntu only" 1>&2
-  exit 1
-fi
-
 # Make sure only root can run our script
 if [[ $EUID -ne 0 ]]; then
   echo "This script must be run as root" 1>&2
