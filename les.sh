@@ -75,8 +75,7 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 #
-
-source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/zldang/les/master/inc/functions.sh)";
-source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/zldang/les/master/inc/install.sh)";
+source <(curl -s https://raw.githubusercontent.com/zldang/les/master/inc/functions.sh)
+source <(curl -s https://raw.githubusercontent.com/zldang/les/master/inc/install.sh)
 
 
