@@ -94,23 +94,12 @@ function f_install_vncserver() {
   fi
 }
 
-function f_install_hackfont() {
-  #Hack font 3.003
-  sudo -u $user mkdir -p /home/$user/.local/share/fonts
-  sudo -u $user wget -O /home/$user/.local/share/fonts/Hack-v3.003-ttf.zip https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip
-  sudo -u $user unzip /home/$user/.local/share/fonts/Hack-v3.003-ttf.zip -d /home/$user/.local/share/fonts/
-  sudo -u $user rm /home/$user/.local/share/fonts/Hack-v3.003-ttf.zip
-  sudo -u $user mv /home/$user/.local/share/fonts/ttf/* /home/$user/.local/share/fonts/
-  sudo -u $user rm -R /home/$user/.local/share/fonts/ttf/
-  sudo -u $user fc-cache -fv
-}
 function f_install_gui() {
   #Install xfce, vnc server, sublime-text
   apt-get update
   apt-get -y install xfce4 xfce4-goodies gnome-icon-theme
   f_install_sublimetext
   f_install_vncserver
-  f_install_hackfont
 }
 
 function f_install_essential_packages() {
@@ -158,7 +147,6 @@ function f_install_mysql() {
 }
 
 function f_secure_db() {
-  read -sp "Set mysql root password: " MYSQL_ROOT_PASSWORD
   sudo mysql -uroot << EOF
   UPDATE mysql.user SET Password=PASSWORD("$MYSQL_ROOT_PASSWORD") WHERE User='root';
   DELETE FROM mysql.user WHERE user='root' AND host NOT IN ('localhost', '127.0.0.1', '::1');
@@ -176,7 +164,7 @@ function f_install_rails() {
   sudo -u $user gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
   sudo -u $user \curl -sSL https://get.rvm.io | sudo -u $user bash -s stable --rails
   f_enable_sudo_password_for_apt
-  
+
   #Postgresql certificate & repo
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
   cat <<EOT >> /etc/apt/sources.list.d/pgdg.list
