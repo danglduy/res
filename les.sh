@@ -61,7 +61,7 @@ v_install_openvpn=false
 ### END OF SETTING VARIABLES SECTION
 
 distro="$(lsb_release -i -s)"
-distro_code="$(lsb_release -r -s)"
+distro_code="$(lsb_release -c -s)"
 
 # Make sure only root can run our script
 if [[ $EUID -ne 0 ]]; then
