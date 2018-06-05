@@ -168,7 +168,7 @@ function f_install_rails() {
   #Postgresql certificate & repo
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
   cat <<EOT >> /etc/apt/sources.list.d/pgdg.list
-  deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main
+  deb http://apt.postgresql.org/pub/repos/apt/ $distro_code-pgdg main
 EOT
 
   #NodeJS certificate & repo
@@ -179,7 +179,7 @@ EOT
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
   apt-get -y update
-  apt-get -y install postgresql-9.6 postgresql-client-9.6 libpq-dev \
+  apt-get -y install postgresql-10 postgresql-client-10 libpq-dev \
                       nodejs \
                       yarn
   f_config_nano_erb
