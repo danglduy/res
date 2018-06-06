@@ -28,17 +28,8 @@ v_install_gui=false
 #Access VNC from localhost only (only if $guiinstall == true). Option: true/false
 v_vnc_localhost=true
 
-#Install PHP? Option: true/false
-v_install_php=false
-
-#Install MariaDB/Mysql Database? Option: true/false
-v_install_mdb=false
-
-#Install mysql for ubuntu instead of mariadb. Option: true/false
-v_install_mysql_ubuntu=false
-
 #Install Rails with Postgres? Option: true/false
-v_install_rails=false
+v_install_rails=true
 
 #Install web server? Option: true/false
 v_install_http_srv=false
@@ -63,12 +54,9 @@ v_install_openvpn=false
 distro="$(lsb_release -i -s)"
 distro_code="$(lsb_release -c -s)"
 
-# Make sure only root can run our script
-if [[ $EUID -ne 0 ]]; then
-  echo "This script must be run as root" 1>&2
-  exit 1
-fi
-#
+sudo apt-get update
+sudo apt-get install curl
+
 source <(curl -s https://raw.githubusercontent.com/zldang/les/master/inc/functions.sh)
 source <(curl -s https://raw.githubusercontent.com/zldang/les/master/inc/install.sh)
 
