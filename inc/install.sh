@@ -20,7 +20,6 @@ fi
 
 if [ $v_create_ssh_key == true ]; then
   f_create_ssh_key
-
 fi
 
 if [ $v_install_gui == true ]; then
