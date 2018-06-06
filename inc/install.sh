@@ -1,10 +1,9 @@
 #!/bin/bash
 
-f_create_user
-
-if [ $v_install_mdb == true ]; then
-  read -sp "Set mysql root password: " MYSQL_ROOT_PASSWORD
-  printf "\n"
+if [ $v_create_user == true ]; then
+  f_create_user
+else
+  user=$(whoami)
 fi
 
 f_create_swap
@@ -28,30 +27,8 @@ if [ $v_install_gui == true ]; then
   f_install_gui
 fi
 
-if [ $v_install_http_srv == true ]; then
-  v_portslist+=(80 443)
-  if [ $v_http_srv == "nginx" ]; then
-    f_install_nginx
-  elif [ $v_http_srv == "apache" ]; then
-    f_install_apache
-  fi
-fi
-
-if [ $v_install_php == true ]; then
-  f_install_php
-fi
-
-if [ $v_install_mdb == true ]; then
-  if [ $distro == "Debian"  ]; then
-    f_install_mariadb
-  elif [ $distro == "Ubuntu" ]; then
-    if [ $v_install_mysql_ubuntu == true ]; then
-      f_install_mysql
-    else
-      f_install_mariadb
-    fi
-  fi
-  f_secure_db
+if [ $v_install_nginx_srv == true ]; then
+     f_install_nginx
 fi
 
 if [ $v_install_rails == true ]; then
@@ -61,10 +38,6 @@ fi
 
 if [ $v_install_firewall == true ]; then
   f_install_firewall
-fi
-
-if [ $v_install_openvpn == true ]; then
-  f_install_openvpn
 fi
 
 f_postinstall
