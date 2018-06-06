@@ -57,7 +57,7 @@ distro_code="$(lsb_release -c -s)"
 sudo apt-get update
 sudo apt-get install -y curl
 
-source <(curl -s https://raw.githubusercontent.com/zldang/les/master/inc/functions.sh)
-source <(curl -s https://raw.githubusercontent.com/zldang/les/master/inc/install.sh)
+source <(curl -s https://raw.githubusercontent.com/zldang/res/master/inc/functions.sh)
+source <(curl -s https://raw.githubusercontent.com/zldang/res/master/inc/install.sh)
 
 
