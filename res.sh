@@ -3,6 +3,10 @@
 
 ### SET VARIABLES
 
+#Create user or use the current user? Rails/RVM should not be installed run under root user.
+#If the computer only has root or you want to setup Rails under a new user, set this var to true.
+v_create_user=false
+
 #Disable password login? If true, password login via SSH will be disabled. Option: true/false
 v_disable_ssh_password=true
 
@@ -31,11 +35,8 @@ v_vnc_localhost=true
 #Install Rails with Postgres? Option: true/false
 v_install_rails=true
 
-#Install web server? Option: true/false
-v_install_http_srv=false
-
-#Install Nginx or Apache? You can only choose between nginx or apache. This script doesn't support nginx as reverse proxy. Option: "nginx"/"apache"
-v_http_srv="nginx"
+#Install nginx as reverse proxy? Option: true/false
+v_install_nginx_srv=false
 
 #Install Firewall? Option: true/false
 v_install_firewall=true
@@ -46,16 +47,10 @@ v_firewall="ufw"
 #Ports for opening. Default 22. Add your ports. By default if install http server we open 80 and 443 port.
 v_portslist=(22)
 
-#Install Openvpn (Thanks to Nyr/openvpn-install) ? Option: true/false
-v_install_openvpn=false
-
 ### END OF SETTING VARIABLES SECTION
 
 distro="$(lsb_release -i -s)"
 distro_code="$(lsb_release -c -s)"
-
-sudo apt-get update
-sudo apt-get install -y curl
 
 source <(curl -s https://raw.githubusercontent.com/zldang/res/master/inc/functions.sh)
 source <(curl -s https://raw.githubusercontent.com/zldang/res/master/inc/install.sh)
