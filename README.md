@@ -12,14 +12,14 @@ This script is under development and not ready for production use. Use at your o
 # Install
 ```Shell
 #Get the script
-wget https://raw.githubusercontent.com/zldang/les/master/les.sh
+wget https://raw.githubusercontent.com/zldang/les/master/res.sh
 
 #Change variables for your environment
-nano les.sh 
+nano res.sh 
 
 #Add run permission
-chmod +x les.sh
+chmod +x res.sh
 
 #Run
-./les.sh
+./res.sh
 ```
