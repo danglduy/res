@@ -11,6 +11,10 @@ This script is under development and not ready for production use. Use at your o
 
 # Install
 ```Shell
+#Update system packages repository and install curl
+sudo apt-get update
+sudo apt-get install curl
+
 #Get the script
 wget https://raw.githubusercontent.com/zldang/les/master/res.sh
 
