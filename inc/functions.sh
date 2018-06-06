@@ -104,57 +104,11 @@ function f_install_gui() {
 
 function f_install_essential_packages() {
   apt-get -y update
-  apt-get -y install dirmngr curl whois apt-transport-https unzip sudo
-}
-
-function f_install_apache() {
-  apt-get -y install httpd
+  apt-get -y install dirmngr whois apt-transport-https unzip sudo
 }
 
 function f_install_nginx() {
   apt-get -y install nginx-extras
-}
-
-function f_install_php() {
-  #PHP
-  if [ $distro == "Debian" && $distro_code == "jessie" ]; then
-    apt-get -y install php5-cli php5-fpm php5-mysqlnd php5-gd php5-mcrypt
-  elif [ $distro == "Ubuntu" && $distro_code == "trusty" ]; then
-    apt-get -y install php5-cli php5-fpm php5-mysqlnd php5-mbstring php5-gd php5-mcrypt
-  elif [ $distro == "Ubuntu" && $distro_code == "bionic" ]; then
-    apt-get -y install php-cli php-fpm php-mysql php-mbstring php-gd php-pear php-dev
-    apt-get -y install libmcrypt-dev libreadline-dev
-    printf "\n" | pecl install mcrypt-1.0.1
-    bash -c "echo extension=mcrypt.so > /etc/php/7.2/fpm/conf.d/20-mcrypt.ini"
-    bash -c "echo extension=mcrypt.so > /etc/php/7.2/cli/conf.d/20-mcrypt.ini"
-  else
-    apt-get -y install apt-get -y install php-cli php-fpm php-mysql php-mbstring php-gd php-mcrypt
-  fi
-}
-
-function f_install_openvpn() {
-  wget https://git.io/vpn -O openvpn-install.sh && bash openvpn-install.sh
-  mv /root/*.ovpn /home/$user/
-  chown -R $user:$user /home/$user/
-}
-
-function f_install_mariadb() {
-  apt-get -y install mariadb-server
-}
-
-function f_install_mysql() {
-  apt-get -y install mysql-server
-}
-
-function f_secure_db() {
-  sudo mysql -uroot << EOF
-  UPDATE mysql.user SET Password=PASSWORD("$MYSQL_ROOT_PASSWORD") WHERE User='root';
-  DELETE FROM mysql.user WHERE user='root' AND host NOT IN ('localhost', '127.0.0.1', '::1');
-  DELETE FROM mysql.user WHERE user='';
-  DROP DATABASE IF EXISTS test;
-  UPDATE mysql.user SET plugin='' WHERE user='root';
-  FLUSH PRIVILEGES;
-EOF
 }
 
 function f_install_rails() {
