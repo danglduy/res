@@ -1,3 +1,4 @@
+
 #!/bin/bash
 function f_create_user() {
   # Create new user & prompt for password creation
@@ -22,7 +23,7 @@ function f_disable_ssh_password() {
 function f_create_ssh_key() {
   v_root_ssh_keypath="/root/.ssh/authorized_keys"
   #Check root ssh key exist
-  if [ -f "$v_root_ssh_keypath" ]; then
+  if [ sudo test -f "$v_root_ssh_keypath" ]; then
     #If exist copy the key to the user and delete the root's key folder
     sudo cp -R /root/.ssh /home/$user/.ssh
     sudo chown -R $user:$user /home/$user/.ssh
