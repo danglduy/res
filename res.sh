@@ -38,7 +38,7 @@ v_install_sublimetext=true
 #Access VNC from localhost only (only if $guiinstall == true). Option: true/false
 v_vnc_localhost=true
 
-#Install Rails with Postgres? Option: true/false
+#Install Rails? Option: true/false
 v_install_rails=true
 
 #Install PostgreSQL server? Option: true/false

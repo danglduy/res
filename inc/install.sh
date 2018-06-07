@@ -43,6 +43,10 @@ if [ $v_install_rails == true ]; then
   f_install_rails
 fi
 
+if [ $v_install_postgresql == true ]; then
+  f_install_postgresql
+fi
+
 if [ $v_install_firewall == true ]; then
   f_install_firewall
 fi

@@ -44,7 +44,7 @@ EOT
 
 function f_create_swap() {
   #Create swap disk image if the system doesn't have swap.
-  checkswap="$(swapon --show)"
+  checkswap="$(sudo swapon --show)"
   if [ -z "$checkswap" ]; then
     sudo mkdir -v /var/cache/swap
     sudo dd if=/dev/zero of=/var/cache/swap/swapfile bs=$v_swap_bs count=1M
@@ -66,7 +66,7 @@ EOT
 }
 
 function f_disable_sudo_password_for_apt() {
-  sudo echo "$user ALL=(ALL) NOPASSWD: /usr/bin/sudo apt-get" >> /etc/sudoers.d/tmpsudo$user
+  echo "$user ALL=(ALL) NOPASSWD: /usr/bin/sudo apt-get" | sudo tee --append etc/sudoers.d/tmpsudo$user
   sudo chmod 0440 /etc/sudoers.d/tmpsudo$user
 }
 
@@ -101,7 +101,7 @@ function f_install_gui() {
 
 function f_install_essential_packages() {
   sudo apt-get -y update
-  sudo apt-get -y install dirmngr whois apt-transport-https unzip sudo
+  sudo apt-get -y install dirmngr whois apt-transport-https unzip
 }
 
 function f_install_nginx() {
@@ -116,12 +116,6 @@ function f_install_rails() {
   sudo -u $user \curl -sSL https://get.rvm.io | sudo -u $user bash -s stable --rails
   f_enable_sudo_password_for_apt
 
-  #Postgresql certificate & repo
-  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-  sudo cat <<EOT >> /etc/apt/sources.list.d/pgdg.list
-  deb http://apt.postgresql.org/pub/repos/apt/ $distro_code-pgdg main
-EOT
-
   #NodeJS certificate & repo
   curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
 
@@ -130,10 +124,18 @@ EOT
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
   sudo apt-get -y update
-  sudo apt-get -y install postgresql-10 postgresql-client-10 libpq-dev \
-                      nodejs \
-                      yarn
+  sudo apt-get -y install nodejs yarn
   f_config_nano_erb
+}
+
+function f_install_postgresql() {
+  #Postgresql certificate & repo
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+  sudo cat <<EOT >> /etc/apt/sources.list.d/pgdg.list
+  deb http://apt.postgresql.org/pub/repos/apt/ $distro_code-pgdg main
+EOT
+  sudo apt-get -y update
+  sudo apt-get -y install postgresql-10 postgresql-client-10 libpq-dev
 }
 
 function f_install_firewall() {
