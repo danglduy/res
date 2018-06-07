@@ -10,20 +10,25 @@ This script will:
 This script is under development and not ready for production use. Use at your own risk!
 
 # Install
+- Update system packages repository and install sudo, curl
 ```Shell
-#Update system packages repository and install curl
-sudo apt-get update
-sudo apt-get install curl
+apt-get update
+apt-get -y install curl sudo wget
+```
+- Get the script
+```Shell
 
-#Get the script
 wget https://raw.githubusercontent.com/zldang/res/master/res.sh
-
-#Change variables for your environment
+```
+- Change variables for your environment
+```Shell
 nano res.sh 
-
-#Add run permission
+```
+- Add run permission
+```Shell
 chmod +x res.sh
-
-#Run
+```
+- Run
+```Shell
 ./res.sh
 ```
