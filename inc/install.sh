@@ -31,7 +31,7 @@ if [ $v_install_vncserver == true ]; then
 fi
 
 if [ $v_install_sublimetext == true ]; then
-  f_install_vncserver
+  f_install_sublimetext
 fi
 
 if [ $v_install_nginx_srv == true ]; then
