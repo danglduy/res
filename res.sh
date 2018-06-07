@@ -33,7 +33,7 @@ v_install_gui=false
 v_install_vncserver=false
 
 #Install Sublime Text? Option true/false
-v_install_sublimetext=true
+v_install_sublimetext=false
 
 #Access VNC from localhost only (only if $v_install_vncserver== true). Option: true/false
 v_vnc_localhost=true
