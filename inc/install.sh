@@ -26,8 +26,16 @@ if [ $v_install_gui == true ]; then
   f_install_gui
 fi
 
+if [ $v_install_vncserver == true ]; then
+  f_install_vncserver
+fi
+
+if [ $v_install_sublimetext == true ]; then
+  f_install_vncserver
+fi
+
 if [ $v_install_nginx_srv == true ]; then
-     f_install_nginx
+  f_install_nginx
 fi
 
 if [ $v_install_rails == true ]; then

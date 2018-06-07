@@ -95,11 +95,8 @@ function f_install_vncserver() {
 }
 
 function f_install_gui() {
-  #Install xfce, vnc server, sublime-text
   apt-get update
   apt-get -y install xfce4 xfce4-goodies gnome-icon-theme
-  f_install_sublimetext
-  f_install_vncserver
 }
 
 function f_install_essential_packages() {

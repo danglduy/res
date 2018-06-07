@@ -29,11 +29,20 @@ v_swap_bs=512
 #Do you use GUI? If yes we install GUI tools: XFCE, VNC, Sublime Text. Option: true/false
 v_install_gui=false
 
+#Install TigerVNC Server? Option true/false
+v_install_vncserver=true
+
+#Install Sublime Text? Option true/false
+v_install_sublimetext=true
+
 #Access VNC from localhost only (only if $guiinstall == true). Option: true/false
 v_vnc_localhost=true
 
 #Install Rails with Postgres? Option: true/false
 v_install_rails=true
+
+#Install PostgreSQL server? Option: true/false
+v_install_postgresql=true
 
 #Install nginx as reverse proxy? Option: true/false
 v_install_nginx_srv=false
