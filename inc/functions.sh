@@ -33,7 +33,7 @@ function f_create_ssh_key() {
     sudo -u $user mkdir -p /home/$user/.ssh
     #If not exist create key file to the user
     sudo touch /home/$user/.ssh/authorized_keys
-    echo "$publickey" | sudo tee --append /home/$user/.ssh/authorized_keys
+    echo "$v_public_key" | sudo tee --append /home/$user/.ssh/authorized_keys
     sudo chown -R $user:$user /home/$user/.ssh
     sudo chmod 700 /home/$user/.ssh
     sudo chmod 600 /home/$user/.ssh/authorized_keys
