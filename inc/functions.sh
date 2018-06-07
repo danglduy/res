@@ -32,9 +32,8 @@ function f_create_ssh_key() {
   else
     sudo -u $user mkdir -p /home/$user/.ssh
     #If not exist create key file to the user
-    sudo cat <<EOT >> /home/$user/.ssh/authorized_keys
-    $publickey
-EOT
+    sudo touch /home/$user/.ssh/authorized_keys
+    echo "$publickey" | sudo tee --append /home/$user/.ssh/authorized_keys
     sudo chown -R $user:$user /home/$user/.ssh
     sudo chmod 700 /home/$user/.ssh
     sudo chmod 600 /home/$user/.ssh/authorized_keys
@@ -132,9 +131,8 @@ function f_install_rails() {
 function f_install_postgresql() {
   #Postgresql certificate & repo
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-  sudo cat <<EOT >> /etc/apt/sources.list.d/pgdg.list
-  deb http://apt.postgresql.org/pub/repos/apt/ $distro_code-pgdg main
-EOT
+  sudo touch /etc/apt/sources.list.d/pgdg.list
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ $distro_code-pgdg main" | sudo tee --append /etc/apt/sources.list.d/pgdg.list
   sudo apt-get -y update
   sudo apt-get -y install postgresql-10 postgresql-client-10 libpq-dev
 }
