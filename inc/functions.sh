@@ -56,7 +56,7 @@ function f_create_swap() {
 
 function f_config_nano_erb() {
   #Nano config for erb
-  wget -P /usr/share/nano/ https://raw.githubusercontent.com/scopatz/nanorc/master/erb.nanorc
+  sudo wget -P /usr/share/nano/ https://raw.githubusercontent.com/scopatz/nanorc/master/erb.nanorc
   sudo -u $user cat <<EOT >> /home/$user/.nanorc
   set tabsize 2
   set tabstospaces
