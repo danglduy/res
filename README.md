@@ -16,7 +16,7 @@ sudo apt-get update
 sudo apt-get install curl
 
 #Get the script
-wget https://raw.githubusercontent.com/zldang/les/master/res.sh
+wget https://raw.githubusercontent.com/zldang/res/master/res.sh
 
 #Change variables for your environment
 nano res.sh 
