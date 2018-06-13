@@ -104,8 +104,48 @@ function f_install_essential_packages() {
   sudo apt-get -y install dirmngr whois apt-transport-https unzip
 }
 
+function f_add_domain() {
+  read -p "Add a domain (y/n)? " add_domain
+  printf "\n"
+  if [ $add_domain == "y" ]; then
+    read -p "Write your domain name: " domain_name
+    printf "\n"
+    mkdir /var/www/vhosts/$domain_name
+    curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/custom_domain -o /etc/nginx/sites-available/$domain_name
+    sed -i "s/domain_name/$domain_name/g" /etc/nginx/sites-available/$domain_name
+    ln -s /etc/nginx/sites-available/$domain_name /etc/nginx/sites-enabled/$domain_name
+  fi
+}
+
+function f_config_nginx() {
+ 
+  rm /etc/nginx/nginx.conf
+  rm /etc/nginx/conf.d/*
+  
+  mkdir /etc/nginx/sites-available
+  mkdir /etc/nginx/sites-enabled
+  
+  curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/nginx_debian.conf -o /etc/nginx/nginx.conf
+  curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/default -o /etc/nginx/sites-available/default
+  ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+  mkdir -p /var/www/vhosts
+  mv /usr/share/nginx/html /var/www/  
+  rm -R /usr/share/nginx
+  f_add_domain
+  chown -R www-data:www-data /var/www
+
+}
+
 function f_install_nginx() {
-  sudo apt-get -y install nginx-extras
+  wget -qO - http://nginx.org/keys/nginx_signing.key | apt-key add -
+  touch /etc/apt/sources.list.d/nginx.list
+  cat <<EOT > /etc/apt/sources.list.d/nginx.list
+    deb http://nginx.org/packages/$distro/ $distro_code nginx
+    deb-src http://nginx.org/packages/$distro/ $distro_code nginx
+EOT
+  apt-get -y update  
+  apt-get -y install nginx
+  f_config_nginx
 }
 
 function f_install_rails() {
