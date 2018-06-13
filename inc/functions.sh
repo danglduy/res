@@ -66,7 +66,7 @@ EOT
 
 function f_disable_sudo_password_for_apt() {
   sudo touch /etc/sudoers.d/tmpsudo$user
-  echo "$user ALL=(ALL) NOPASSWD: /usr/bin/sudo apt-get" | sudo tee --append etc/sudoers.d/tmpsudo$user
+  echo "$user ALL=(ALL) NOPASSWD: /usr/bin/sudo apt-get" | sudo tee --append /etc/sudoers.d/tmpsudo$user
   sudo chmod 0440 /etc/sudoers.d/tmpsudo$user
 }
 
