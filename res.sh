@@ -59,6 +59,7 @@ v_portslist=(22)
 ### END OF SETTING VARIABLES SECTION
 
 distro="$(lsb_release -i -s)"
+distro="${distro,,}"
 distro_code="$(lsb_release -c -s)"
 
 source <(curl -s https://raw.githubusercontent.com/zldang/res/master/inc/functions.sh)
