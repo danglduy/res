@@ -139,8 +139,6 @@ function f_config_nginx() {
   sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/passenger.conf -o /etc/nginx/passenger.conf
   sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
   sudo mkdir -p /var/www/vhosts
-  sudo mv /usr/share/nginx/html /var/www/  
-  sudo rm -R /usr/share/nginx
   f_add_domain
   sudo chown -R www-data:www-data /var/www
 
