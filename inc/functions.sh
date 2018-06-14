@@ -151,7 +151,14 @@ EOT
 function f_install_rails() {
   f_disable_sudo_password_for_apt
   #Install rvm, ruby and rails stable for $user user
-  sudo -u $user gpg --gpg-options "--homedir=/home/$user/.gnupg" --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+  if [[ $EUID -ne 0 ]]; then
+    # Non-root user
+    gpghomedir="/home/$user/.gnupg"
+  else
+    # Root
+    gpghomedir="/root/.gnupg"
+  fi
+  sudo -u $user gpg --gpg-options "--homedir=$gpghomedir" --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
   sudo -u $user \curl -sSL https://get.rvm.io | sudo -u $user bash -s stable --rails
   f_enable_sudo_password_for_apt
 
