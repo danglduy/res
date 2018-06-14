@@ -154,6 +154,15 @@ EOT
   f_config_nginx
 }
 
+function f_install_passenger() {
+  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
+  sudo apt-get install -y ca-certificates
+  sudo touch /etc/apt/sources.list.d/passenger.list
+  sudo echo "deb https://oss-binaries.phusionpassenger.com/apt/passenger $distro_cide main" | sudo tee /etc/apt/sources.list.d/passenger.list
+  sudo apt-get update
+  sudo apt-get install -y passenger
+}
+
 function f_install_rails() {
   f_disable_sudo_password_for_apt
   #Install rvm, ruby and rails stable for $user user
