@@ -54,8 +54,8 @@ v_install_firewall=false
 # Firewall option? Option: "ufw"/"firewalld"
 v_firewall="ufw"
 
-# Ports for opening. Default 22. Add your ports. By default if install http server we open 80 and 443 port.
-v_portslist=(22)
+# Ports for opening.
+v_portslist=(22 80 443)
 
 ### END OF SETTING VARIABLES SECTION
 
