@@ -56,10 +56,6 @@ if [ $v_install_nginx_srv == true ]; then
   f_install_nginx
 fi
 
-if [ $v_install_passenger == true ]; then
-  f_install_passenger
-fi
-
 if [ $v_install_firewall == true ]; then
   f_install_firewall
 fi
