@@ -164,6 +164,8 @@ function f_install_passenger() {
     sudo apt-get update
     sudo apt-get install -y passenger
   fi
+  sudo rm /etc/nginx/passenger.conf
+  sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/passenger.conf -o /etc/nginx/passenger.conf
 }
 
 function f_install_rails() {
