@@ -151,7 +151,7 @@ EOT
 function f_install_rails() {
   f_disable_sudo_password_for_apt
   #Install rvm, ruby and rails stable for $user user
-  if [[ $EUID -ne 0 ]]; then
+  if [ -z $user ]; then
     # Non-root user
     gpghomedir="/home/$user/.gnupg"
   else
