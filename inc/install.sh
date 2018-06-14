@@ -49,7 +49,6 @@ if [ $v_install_nginx_srv == true ]; then
 fi
 
 if [ $v_install_rails == true ]; then
-  v_portslist+=(3000 5000)
   f_install_rails
 fi
 
