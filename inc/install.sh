@@ -9,17 +9,21 @@ fi
 f_create_swap
 
 f_install_essential_packages
-
-if [ $v_disable_root_ssh_login == true ]; then
-  f_disable_root_ssh_login
+if [ $user == "root" ]; then
+  # Only disable root ssh login if the current user is not root or a new user is created
+  if [ $v_disable_root_ssh_login == true ]; then
+    f_disable_root_ssh_login
+  fi
 fi
 
 if [ $v_disable_ssh_password == true ]; then
   f_disable_ssh_password
 fi
-
-if [ $v_create_ssh_key == true ]; then
-  f_create_ssh_key
+if [ $user == "root" ]; then
+  # Only create ssh key if the current user is not root or a new user is created
+  if [ $v_create_ssh_key == true ]; then
+    f_create_ssh_key
+  fi
 fi
 
 if [ $v_install_gui == true ]; then
