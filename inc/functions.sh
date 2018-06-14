@@ -43,11 +43,7 @@ function f_create_ssh_key() {
 
 function f_create_swap() {
   #Create swap disk image if the system doesn't have swap.
-  checkswap="$(sudo swapon --show)"
-  
-  if [ $distro_code == "trusty" ]; then
-    checkswap="$(swapon --summary)"
-  fi
+  checkswap="$(sudo swapon -s)"
   
   if [ -z "$checkswap" ]; then
     sudo mkdir -v /var/cache/swap
