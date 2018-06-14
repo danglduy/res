@@ -86,12 +86,12 @@ function f_install_sublimetext() {
 function f_install_vncserver() {
   sudo apt-get -y install vnc4server
   #Create vncserver launch file
-  sudo -u $user touch /$homepath/vncserver.sh
-  sudo -u $user chmod +x /$homepath/vncserver.sh
+  sudo -H -u $user touch /$homepath/vncserver.sh
+  sudo -H -u $user chmod +x /$homepath/vncserver.sh
   if [ $v_vnc_localhost == true ]; then
-    sudo -u $user echo "vncserver -geometry 1280x650 -localhost" > /$homepath/vncserver.sh
+    sudo -H -u $user echo "vncserver -geometry 1280x650 -localhost" > /$homepath/vncserver.sh
   else
-    sudo -u $user echo "vncserver -geometry 1280x650" > /$homepath/vncserver.sh
+    sudo -H -u $user echo "vncserver -geometry 1280x650" > /$homepath/vncserver.sh
   fi
 }
 
@@ -152,8 +152,8 @@ EOT
 function f_install_rails() {
   f_disable_sudo_password_for_apt
   #Install rvm, ruby and rails stable for $user user
-  sudo gpg -u $user --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-  sudo -u $user \curl -sSL https://get.rvm.io | sudo -u $user bash -s stable --rails
+  sudo -H -u $user --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+  sudo -H -u $user \curl -sSL https://get.rvm.io | sudo -H -u $user bash -s stable --rails
   f_enable_sudo_password_for_apt
 
   #NodeJS certificate & repo
