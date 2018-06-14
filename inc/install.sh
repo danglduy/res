@@ -5,7 +5,7 @@ if [ $v_create_user == true ]; then
   homepath="/home/$user"
 else
   user=$(whoami)
-  if [ $user -eq "root" ]; then
+  if [ $user == "root" ]; then
     homepath="/root"
   else
     homepath="/home/$user"
