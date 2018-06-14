@@ -111,56 +111,59 @@ function f_install_essential_packages() {
 }
 
 function f_add_domain() {
+  custom_domain="custom_domain"
+  if [ $v_install_passenger == true ]; then
+    custom_domain="custom_domain_passenger"
+  fi
   read -p "Add a domain (y/n)? " add_domain
   printf "\n"
   if [ $add_domain == "y" ]; then
     read -p "Write your domain name: " domain_name
     printf "\n"
-    mkdir /var/www/vhosts/$domain_name
-    curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/custom_domain -o /etc/nginx/sites-available/$domain_name
-    sed -i "s/domain_name/$domain_name/g" /etc/nginx/sites-available/$domain_name
-    ln -s /etc/nginx/sites-available/$domain_name /etc/nginx/sites-enabled/$domain_name
+    sudo mkdir /var/www/vhosts/$domain_name
+    sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/$custom_domain -o /etc/nginx/sites-available/$domain_name
+    sudo sed -i "s/domain_name/$domain_name/g" /etc/nginx/sites-available/$domain_name
+    sudo ln -s /etc/nginx/sites-available/$domain_name /etc/nginx/sites-enabled/$domain_name
   fi
 }
 
 function f_config_nginx() {
- 
-  rm /etc/nginx/nginx.conf
-  rm /etc/nginx/conf.d/*
-  
-  mkdir /etc/nginx/sites-available
-  mkdir /etc/nginx/sites-enabled
-  
-  curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/nginx_debian.conf -o /etc/nginx/nginx.conf
-  curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/default -o /etc/nginx/sites-available/default
-  ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-  mkdir -p /var/www/vhosts
-  mv /usr/share/nginx/html /var/www/  
-  rm -R /usr/share/nginx
+  nginx_debian="nginx_debian.conf"
+  if [ $v_install_passenger == true ]; then
+    nginx_debian="nginx_debian_passenger.conf"
+  fi
+  sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
+  sudo rm /etc/nginx/nginx.conf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+  sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/$nginx_debian -o /etc/nginx/nginx.conf
+  sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/default -o /etc/nginx/sites-available/default
+  sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+  sudo mkdir -p /var/www/vhosts
+  sudo mv /usr/share/nginx/html /var/www/  
+  sudo rm -R /usr/share/nginx
   f_add_domain
-  chown -R www-data:www-data /var/www
+  sudo chown -R www-data:www-data /var/www
 
 }
 
 function f_install_nginx() {
-  wget -qO - http://nginx.org/keys/nginx_signing.key | apt-key add -
-  touch /etc/apt/sources.list.d/nginx.list
-  cat <<EOT > /etc/apt/sources.list.d/nginx.list
-    deb http://nginx.org/packages/$distro/ $distro_code nginx
-    deb-src http://nginx.org/packages/$distro/ $distro_code nginx
-EOT
-  apt-get -y update  
-  apt-get -y install nginx
+  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
+  sudo touch /etc/apt/sources.list.d/passenger.list
+  sudo echo "deb https://oss-binaries.phusionpassenger.com/apt/passenger $distro_code main" | sudo tee /etc/apt/sources.list.d/passenger.list
+  sudo apt-get update
+  sudo apt-get install -y nginx-extras passenger
   f_config_nginx
 }
 
 function f_install_passenger() {
-  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
-  sudo apt-get install -y ca-certificates
-  sudo touch /etc/apt/sources.list.d/passenger.list
-  sudo echo "deb https://oss-binaries.phusionpassenger.com/apt/passenger $distro_cide main" | sudo tee /etc/apt/sources.list.d/passenger.list
-  sudo apt-get update
-  sudo apt-get install -y passenger
+  if [ $v_install_nginx == true ]; then
+    sudo apt-get install -y passenger
+  else
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
+    sudo touch /etc/apt/sources.list.d/passenger.list
+    sudo echo "deb https://oss-binaries.phusionpassenger.com/apt/passenger $distro_code main" | sudo tee /etc/apt/sources.list.d/passenger.list
+    sudo apt-get update
+    sudo apt-get install -y passenger
+  fi
 }
 
 function f_install_rails() {
