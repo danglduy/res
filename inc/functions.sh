@@ -133,7 +133,7 @@ function f_config_nginx() {
     nginx_debian="nginx_debian_passenger.conf"
   fi
   sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
-  sudo rm /etc/nginx/nginx.conf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default /etc/nginx/passenger.conf
+  sudo rm /etc/nginx/nginx.conf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default /etc/nginx/passenger.conf /etc/nginx/conf.d/*
   sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/$nginx_debian -o /etc/nginx/nginx.conf
   sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/default -o /etc/nginx/sites-available/default
   sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/passenger.conf -o /etc/nginx/passenger.conf
