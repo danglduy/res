@@ -133,9 +133,10 @@ function f_config_nginx() {
     nginx_debian="nginx_debian_passenger.conf"
   fi
   sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
-  sudo rm /etc/nginx/nginx.conf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+  sudo rm /etc/nginx/nginx.conf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default /etc/nginx/passenger.conf
   sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/$nginx_debian -o /etc/nginx/nginx.conf
   sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/default -o /etc/nginx/sites-available/default
+  sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/passenger.conf -o /etc/nginx/passenger.conf
   sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
   sudo mkdir -p /var/www/vhosts
   sudo mv /usr/share/nginx/html /var/www/  
@@ -150,22 +151,15 @@ function f_install_nginx() {
   sudo touch /etc/apt/sources.list.d/passenger.list
   sudo echo "deb https://oss-binaries.phusionpassenger.com/apt/passenger $distro_code main" | sudo tee /etc/apt/sources.list.d/passenger.list
   sudo apt-get update
-  sudo apt-get install -y nginx-extras passenger
-  f_config_nginx
-}
-
-function f_install_passenger() {
-  if [ $v_install_nginx == true ]; then
-    sudo apt-get install -y passenger
-  else
-    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
-    sudo touch /etc/apt/sources.list.d/passenger.list
-    sudo echo "deb https://oss-binaries.phusionpassenger.com/apt/passenger $distro_code main" | sudo tee /etc/apt/sources.list.d/passenger.list
-    sudo apt-get update
-    sudo apt-get install -y passenger
+  sudo apt-get install -y nginx-extras
+  if [ $v_install_passenger == true ]; then
+    if [ $distro == "ubuntu" ] || [ $distro_code == "jessie" ]; then
+      sudo apt-get install -y passenger
+    elif [ $distro == "debian" ]; then
+      sudo apt-get install -y libnginx-mod-http-passenger
+    fi
   fi
-  sudo rm /etc/nginx/passenger.conf
-  sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/passenger.conf -o /etc/nginx/passenger.conf
+  f_config_nginx
 }
 
 function f_install_rails() {
