@@ -42,6 +42,9 @@ v_vnc_localhost=true
 # Install Rails? Option: true/false
 v_install_rails=true
 
+# Install Phusion Passenger? Option: true/flase
+v_install_passenger=true
+
 # Install PostgreSQL server? Option: true/false
 v_install_postgresql=true
 
