@@ -1,3 +1,7 @@
+upstream my_app{
+        server 127.0.0.1:3000;
+}
+
 server {
         # Redirect www to non-www. Reverse if you want.
         server_name www.domain_name;
@@ -10,6 +14,10 @@ server {
         server_name  domain_name;
         root   /var/www/vhosts/domain_name;
         index  index.html index.htm;  
+        
+        location / {
+            proxy_pass http://my_app;
+        }
         
         location = /favicon.ico {
                 log_not_found off;
