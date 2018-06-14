@@ -24,19 +24,19 @@ function f_create_ssh_key() {
   #Check root ssh key exist
   if sudo test -e $v_root_ssh_keypath; then
     #If exist copy the key to the user and delete the root's key folder
-    sudo cp -R /root/.ssh /home/$user/.ssh
-    sudo chown -R $user:$user /home/$user/.ssh
-    sudo chmod 700 /home/$user/.ssh
-    sudo chmod 600 /home/$user/.ssh/authorized_keys
+    sudo cp -R /root/.ssh /$homepath/.ssh
+    sudo chown -R $user:$user /$homepath/.ssh
+    sudo chmod 700 /$homepath/.ssh
+    sudo chmod 600 /$homepath/.ssh/authorized_keys
     sudo rm -R /root/.ssh
   else
-    sudo -u $user mkdir -p /home/$user/.ssh
+    sudo -u $user mkdir -p /$homepath/.ssh
     #If not exist create key file to the user
-    sudo touch /home/$user/.ssh/authorized_keys
-    echo "$v_public_key" | sudo tee --append /home/$user/.ssh/authorized_keys
-    sudo chown -R $user:$user /home/$user/.ssh
-    sudo chmod 700 /home/$user/.ssh
-    sudo chmod 600 /home/$user/.ssh/authorized_keys
+    sudo touch /$homepath/.ssh/authorized_keys
+    echo "$v_public_key" | sudo tee --append /$homepath/.ssh/authorized_keys
+    sudo chown -R $user:$user /$homepath/.ssh
+    sudo chmod 700 /$homepath/.ssh
+    sudo chmod 600 /$homepath/.ssh/authorized_keys
   fi
   sudo service sshd restart
 }
@@ -57,7 +57,8 @@ function f_create_swap() {
 function f_config_nano_erb() {
   #Nano config for erb
   sudo wget -P /usr/share/nano/ https://raw.githubusercontent.com/scopatz/nanorc/master/erb.nanorc
-  sudo -u $user cat <<EOT >> /home/$user/.nanorc
+  
+  sudo -u $user cat <<EOT >> /$homepath/.nanorc
   set tabsize 2
   set tabstospaces
   include "/usr/share/nano/erb.nanorc"
@@ -85,12 +86,12 @@ function f_install_sublimetext() {
 function f_install_vncserver() {
   sudo apt-get -y install vnc4server
   #Create vncserver launch file
-  sudo -u $user touch /home/$user/vncserver.sh
-  sudo -u $user chmod +x /home/$user/vncserver.sh
+  sudo -u $user touch /$homepath/vncserver.sh
+  sudo -u $user chmod +x /$homepath/vncserver.sh
   if [ $v_vnc_localhost == true ]; then
-    sudo -u $user echo "vncserver -geometry 1280x650 -localhost" > /home/$user/vncserver.sh
+    sudo -u $user echo "vncserver -geometry 1280x650 -localhost" > /$homepath/vncserver.sh
   else
-    sudo -u $user echo "vncserver -geometry 1280x650" > /home/$user/vncserver.sh
+    sudo -u $user echo "vncserver -geometry 1280x650" > /$homepath/vncserver.sh
   fi
 }
 
