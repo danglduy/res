@@ -4,6 +4,11 @@ if [ $v_create_user == true ]; then
   f_create_user
 else
   user=$(whoami)
+  if [ $user -eq "root" ]
+    $homepath="/root"
+  else
+    $homepath="/home/$user"
+  fi
 fi
 
 f_create_swap
