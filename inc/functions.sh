@@ -9,19 +9,19 @@ function f_create_user() {
 }
 
 function f_disable_root_ssh_login() {
-  #Disable SSH Root Login
+  # Disable SSH Root Login
   sudo sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
 }
 
 function f_disable_ssh_password() {
-  #Disable SSH Password Authentication
+  # Disable SSH Password Authentication
   sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
   sudo sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
 }
 
 function f_create_ssh_key() {
   v_root_ssh_keypath="/root/.ssh/authorized_keys"
-  #Check root ssh key exist
+  # Check root ssh key exist
   if sudo test -e $v_root_ssh_keypath; then
     #If exist copy the key to the user and delete the root's key folder
     sudo cp -R /root/.ssh /$homepath/.ssh
@@ -42,13 +42,13 @@ function f_create_ssh_key() {
 }
 
 function f_create_swap() {
-  #Create swap disk image if the system doesn't have swap.
+  # Create swap disk image if the system doesn't have swap.
   if [ $distro_code == "trusty" ]; then
     checkswap="$(sudo swapon --summary)"
   else
     checkswap="$(sudo swapon --show)"
   fi
-  
+
   if [ -z "$checkswap" ]; then
     sudo mkdir -v /var/cache/swap
     sudo dd if=/dev/zero of=/var/cache/swap/swapfile bs=$v_swap_bs count=1M
@@ -60,9 +60,9 @@ function f_create_swap() {
 }
 
 function f_config_nano_erb() {
-  #Nano config for erb
+  # Nano config for erb
   sudo wget -P /usr/share/nano/ https://raw.githubusercontent.com/scopatz/nanorc/master/erb.nanorc
-  
+
   sudo -u $user cat <<EOT >> /$homepath/.nanorc
   set tabsize 2
   set tabstospaces
@@ -90,7 +90,7 @@ function f_install_sublimetext() {
 
 function f_install_vncserver() {
   sudo apt-get -y install vnc4server
-  #Create vncserver launch file
+  # Create vncserver launch file
   sudo -H -u $user touch /$homepath/vncserver.sh
   sudo -H -u $user chmod +x /$homepath/vncserver.sh
   if [ $v_vnc_localhost == true ]; then
@@ -111,9 +111,9 @@ function f_install_essential_packages() {
 }
 
 function f_add_domain() {
-  custom_domain="custom_domain"
-  if [ $v_install_passenger == true ]; then
-    custom_domain="custom_domain_passenger"
+  custom_domain="custom_domain-puma_https"
+  if [ $v_rails_server == "passenger" ]; then
+    custom_domain="custom_domain_passenger-http"
   fi
   read -p "Add a domain (y/n)? " add_domain
   printf "\n"
@@ -129,7 +129,7 @@ function f_add_domain() {
 
 function f_config_nginx() {
   nginx_debian="nginx_debian.conf"
-  if [ $v_install_passenger == true ]; then
+  if [ $v_rails_server == "passenger" ]; then
     nginx_debian="nginx_debian_passenger.conf"
   fi
   sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
@@ -150,7 +150,7 @@ function f_install_nginx() {
   sudo echo "deb https://oss-binaries.phusionpassenger.com/apt/passenger $distro_code main" | sudo tee /etc/apt/sources.list.d/passenger.list
   sudo apt-get update
   sudo apt-get install -y nginx-extras
-  if [ $v_install_passenger == true ]; then
+  if [ $v_rails_server == "passenger" ]; then
     if [ $distro == "ubuntu" ] || [ $distro_code == "jessie" ]; then
       sudo apt-get install -y passenger
     elif [ $distro == "debian" ]; then
