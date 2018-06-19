@@ -19,7 +19,7 @@ apt-get -y install curl sudo wget git
 Clone the project
 
 ```Shell
-git clone https://gitlab.com/zldang/res.git
+git clone https://github.com/zldang/res.git
 ```
 Change variables for your environment
 
