@@ -1,6 +1,6 @@
 upstream my_app{
-        server 127.0.0.1:3000;
-        # server unix:///tmp/my_app.sock
+#        server 127.0.0.1:3000;
+        server unix:///tmp/my_app.sock;
 }
 
 server {

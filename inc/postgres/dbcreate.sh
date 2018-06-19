@@ -14,9 +14,9 @@ dbtest=$role'_test'
 dbproduction=$role'_production'
 sudo -H -u postgres psql -c "CREATE ROLE $role WITH LOGIN ENCRYPTED PASSWORD '$rolepassword';"
 sudo -H -u postgres psql -c "ALTER USER $role CREATEDB;"
-sudo -H -u postgres psql -U $role -d template1 -c "CREATE DATABASE $dbdevelopment;" -W
-sudo -H -u postgres psql -U $role -d template1 -c "CREATE DATABASE $dbtest;" -W
-sudo -H -u postgres psql -U $role -d template1 -c "CREATE DATABASE $dbproduction;" -W
+#sudo -H -u postgres psql -U $role -d template1 -c "CREATE DATABASE $dbdevelopment;" -W
+#sudo -H -u postgres psql -U $role -d template1 -c "CREATE DATABASE $dbtest;" -W
+#sudo -H -u postgres psql -U $role -d template1 -c "CREATE DATABASE $dbproduction;" -W
 
 # Change role password (change with your own secure password) : 
 # sudo -H -u postgres psql -c "ALTER USER sample_app WITH LOGIN ENCRYPTED PASSWORD '123456789';"
