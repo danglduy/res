@@ -14,16 +14,17 @@ Update system packages repository and install sudo, curl
 
 ```Shell
 apt-get update
-apt-get -y install curl sudo wget
+apt-get -y install curl sudo wget git
 ```
-Get the script
+Clone the project
 
 ```Shell
-wget https://raw.githubusercontent.com/zldang/res/master/res.sh
+git clone https://gitlab.com/zldang/res.git
 ```
 Change variables for your environment
 
 ```Shell
+cd res
 nano res.sh 
 ```
 Add run permission
