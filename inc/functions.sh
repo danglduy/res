@@ -121,7 +121,7 @@ function f_add_domain() {
     read -p "Write your domain name: " domain_name
     printf "\n"
     sudo mkdir /var/www/vhosts/$domain_name
-    sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/$custom_domain -o /etc/nginx/sites-available/$domain_name
+    sudo cp inc/nginx/$custom_domain /etc/nginx/sites-available/$domain_name
     sudo sed -i "s/domain_name/$domain_name/g" /etc/nginx/sites-available/$domain_name
     sudo ln -s /etc/nginx/sites-available/$domain_name /etc/nginx/sites-enabled/$domain_name
   fi
@@ -134,9 +134,9 @@ function f_config_nginx() {
   fi
   sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
   sudo rm /etc/nginx/nginx.conf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default /etc/nginx/passenger.conf /etc/nginx/conf.d/*
-  sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/$nginx_debian -o /etc/nginx/nginx.conf
-  sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/default -o /etc/nginx/sites-available/default
-  sudo curl https://raw.githubusercontent.com/zldang/res/master/inc/nginx/passenger.conf -o /etc/nginx/passenger.conf
+  sudo cp inc/nginx/$nginx_debian -o /etc/nginx/nginx.conf
+  sudo cp inc/nginx/default -o /etc/nginx/sites-available/default
+  sudo cp inc/nginx/passenger.conf -o /etc/nginx/passenger.conf
   sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
   sudo mkdir -p /var/www/vhosts
   f_add_domain
