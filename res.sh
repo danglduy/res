@@ -66,7 +66,7 @@ distro="$(lsb_release -i -s)"
 distro="${distro,,}"
 distro_code="$(lsb_release -c -s)"
 
-source <(curl -s https://raw.githubusercontent.com/zldang/res/master/inc/functions.sh)
-source <(curl -s https://raw.githubusercontent.com/zldang/res/master/inc/install.sh)
+source inc/functions.sh
+source inc/install.sh
 
 
