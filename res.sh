@@ -42,8 +42,9 @@ v_vnc_localhost=true
 # Install Rails? Option: true/false
 v_install_rails=true
 
-# Install Phusion Passenger? Option: true/false [EXPERIMENT]
-v_install_passenger=false
+# Choose your rails server. Option "puma"/"passenger"
+# "passenger" is not tested.
+v_rails_server="puma"
 
 # Install PostgreSQL server? Option: true/false
 v_install_postgresql=true
