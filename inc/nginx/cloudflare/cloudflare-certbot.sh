@@ -2,7 +2,7 @@
 distro="$(lsb_release -i -s)"
 distro="${distro,,}"
 distro_code="$(lsb_release -c -s)"
-read "Your domain name:" domain_name
+read -p "Your domain name:" domain_name
 printf "\n"
 
 # Ubuntu

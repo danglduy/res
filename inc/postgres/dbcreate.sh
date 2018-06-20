@@ -12,8 +12,8 @@ rolepassword='12345678' # sample only, change to your own secure password
 dbdevelopment=$role'_development'
 dbtest=$role'_test'
 dbproduction=$role'_production'
-sudo -H -u postgres psql -c "CREATE ROLE $role WITH LOGIN ENCRYPTED PASSWORD '$rolepassword';"
-sudo -H -u postgres psql -c "ALTER USER $role CREATEDB;"
+sudo -u postgres psql -c "CREATE ROLE $role WITH LOGIN ENCRYPTED PASSWORD '$rolepassword';"
+sudo -u postgres psql -c "ALTER USER $role CREATEDB;"
 #sudo -H -u postgres psql -U $role -d template1 -c "CREATE DATABASE $dbdevelopment;" -W
 #sudo -H -u postgres psql -U $role -d template1 -c "CREATE DATABASE $dbtest;" -W
 #sudo -H -u postgres psql -U $role -d template1 -c "CREATE DATABASE $dbproduction;" -W

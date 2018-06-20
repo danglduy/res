@@ -5,17 +5,17 @@
 
 # Create user or use the current user? Rails/RVM should not be installed run under root user.
 # If the computer only has root or you want to setup Rails under a new user, set this var to true.
-v_create_user=false
+v_create_user=true
 
 # Disable password login? If true, password login via SSH will be disabled. Option: true/false
-v_disable_ssh_password=false
+v_disable_ssh_password=true
 
 # Create ~/.ssh/authorized_keys . Option: true/false
-v_create_ssh_key=false
+v_create_ssh_key=true
 
 # Disable root login through SSH? Option: true/false
 # (Only when no $v_create_user == true)
-v_disable_root_ssh_login=false
+v_disable_root_ssh_login=true
 
 # Set public key, replace with your own from puttygen/ssh-keygen.
 # You can leave blank f you already set keys during setup the droplet (Digital Ocean/Vultr), or your $passwordlogin == false
@@ -53,7 +53,7 @@ v_install_postgresql=true
 v_install_nginx_srv=true
 
 # Install Firewall? Option: true/false
-v_install_firewall=false
+v_install_firewall=true
 
 # Firewall option? Option: "ufw"/"firewalld"
 v_firewall="ufw"
