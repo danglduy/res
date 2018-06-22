@@ -47,7 +47,7 @@ v_install_rails=true
 v_rails_server="puma"
 
 # Install PostgreSQL server? Option: true/false
-v_install_postgresql=true
+v_install_postgresql=false
 
 # Install nginx as reverse proxy? Option: true/false
 v_install_nginx_srv=true
