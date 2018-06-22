@@ -168,9 +168,21 @@ function f_install_rails() {
     # sudo -H -u $user gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
     sudo -H -u $user curl -sSL https://rvm.io/mpapis.asc | sudo -H -u $user gpg --import -
     sudo -H -u $user \curl -sSL https://get.rvm.io | sudo -H -u $user bash
+    sudo -H -u $user rvm install $v_ruby_version
+    sudo -H -u $user rvm defaults $v_ruby_version
+    sudo -H -u $user gem install bundler
+    sudo -H -u $user gem install rails
     f_enable_sudo_password_for_apt
   elif [ $v_install_ruby_manager == "rbenv" ]; then
-    curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash
+    # Install rbenv
+    sudo -H -u $user apt-get -y install build-essential
+    sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | sudo -H -u $user bash
+    sudo -H -u $user echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $homepath/.bashrc
+    sudo -H -u $user echo 'eval "$(rbenv init -)"' >> $homepath/.bashrc
+    sudo -H -u $user rbenv install $v_ruby_version
+    sudo -H -u $user rbenv global $v_ruby_version
+    sudo -H -u $user gem install bundler
+    sudo -H -u $user gem install rails
   fi
   #NodeJS certificate & repo
   curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
@@ -185,12 +197,21 @@ function f_install_rails() {
 }
 
 function f_install_postgresql() {
-  #Postgresql certificate & repo
+  # Postgresql certificate & repo
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
   sudo touch /etc/apt/sources.list.d/pgdg.list
   echo "deb http://apt.postgresql.org/pub/repos/apt/ $distro_code-pgdg main" | sudo tee --append /etc/apt/sources.list.d/pgdg.list
   sudo apt-get -y update
   sudo apt-get -y install postgresql-10 postgresql-client-10 libpq-dev
+}
+
+function f_install_postgresql_client() {
+  # Postgresql certificate & repo
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+  sudo touch /etc/apt/sources.list.d/pgdg.list
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ $distro_code-pgdg main" | sudo tee --append /etc/apt/so$
+  sudo apt-get -y update
+  sudo apt-get -y install postgresql-client-10 libpq-dev
 }
 
 function f_install_firewall() {

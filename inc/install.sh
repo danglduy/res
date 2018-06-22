@@ -50,7 +50,10 @@ fi
 
 if [ $v_install_postgresql == true ]; then
   f_install_postgresql
+else
+  f_install_postgresql_client
 fi
+
 
 if [ $v_install_nginx_srv == true ]; then
   f_install_nginx

@@ -42,8 +42,11 @@ v_vnc_localhost=true
 # Install Rails? Option: true/false
 v_install_rails=true
 
+# Ruby version?
+v_ruby_version="2.5.1"
+
 # RVM or rbenv? Option: "rvm"/"rbenv"
-v_install_ruby_manager="rvm"
+v_install_ruby_manager="rbenv"
 
 # Choose your rails server. Option "puma"/"passenger"
 # "passenger" is not tested.
