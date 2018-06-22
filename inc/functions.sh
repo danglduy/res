@@ -162,12 +162,16 @@ function f_install_nginx() {
 
 function f_install_rails() {
   f_disable_sudo_password_for_apt
-  #Install rvm, ruby and rails stable for $user user
-  # sudo -H -u $user gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-  sudo -H -u $user curl -sSL https://rvm.io/mpapis.asc | sudo -H -u $user gpg --import -
-  sudo -H -u $user \curl -sSL https://get.rvm.io | sudo -H -u $user bash
-  f_enable_sudo_password_for_apt
 
+  if [ $v_install_ruby_manager == "rvm" ]; then
+    # Install rvm, ruby and rails for $user user
+    # sudo -H -u $user gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+    sudo -H -u $user curl -sSL https://rvm.io/mpapis.asc | sudo -H -u $user gpg --import -
+    sudo -H -u $user \curl -sSL https://get.rvm.io | sudo -H -u $user bash
+    f_enable_sudo_password_for_apt
+  elif [ $v_install_ruby_manager == "rbenv" ]; then
+    curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | bash
+  fi
   #NodeJS certificate & repo
   curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
 
