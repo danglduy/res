@@ -176,11 +176,13 @@ function f_install_rails() {
   elif [ $v_install_ruby_manager == "rbenv" ]; then
     # Install rbenv
     sudo -H -u $user sudo apt-get -y install build-essential libssl-dev libreadline-dev zlib1g-dev
+    sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | sudo su - $user -c bash
     sudo -H -u $user echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $homepath/.bash_profile
     sudo -H -u $user echo 'eval "$(rbenv init -)"' >> $homepath/.bash_profile
-    sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | sudo su - $user -c bash
+    sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-doctor | sudo su - $user -c bash
     sudo su - $user -c "rbenv install $v_ruby_version"
     sudo su - $user -c "rbenv global $v_ruby_version"
+    sudo su - $user -c "rbenv rehash"
     sudo su - $user -c "gem install bundler"
     sudo su - $user -c "gem install rails"
   fi
@@ -200,7 +202,7 @@ function f_install_postgresql() {
   # Postgresql certificate & repo
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
   sudo touch /etc/apt/sources.list.d/pgdg.list
-  echo "deb http://apt.postgresql.org/pub/repos/apt/ $distro_code-pgdg main" | sudo tee --append /etc/apt/sources.list.d/pgdg.list
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ $distro_code-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
   sudo apt-get -y update
   sudo apt-get -y install postgresql-10 postgresql-client-10 libpq-dev
 }
@@ -209,7 +211,7 @@ function f_install_postgresql_client() {
   # Postgresql certificate & repo
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
   sudo touch /etc/apt/sources.list.d/pgdg.list
-  echo "deb http://apt.postgresql.org/pub/repos/apt/ $distro_code-pgdg main" | sudo tee --append /etc/apt/sources.list.d/pgdg.list
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ $distro_code-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
   sudo apt-get -y update
   sudo apt-get -y install postgresql-client-10 libpq-dev
 }
