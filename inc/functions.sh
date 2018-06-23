@@ -176,9 +176,9 @@ function f_install_rails() {
   elif [ $v_install_ruby_manager == "rbenv" ]; then
     # Install rbenv
     sudo -H -u $user apt-get -y install build-essential libssl-dev libreadline-dev zlib1g-dev
-    sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | sudo -H -u $user bash
     sudo -H -u $user echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $homepath/.bashrc
     sudo -H -u $user echo 'eval "$(rbenv init -)"' >> $homepath/.bashrc
+    sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | sudo -H -u $user bash
     sudo -H -u $user rbenv install $v_ruby_version
     sudo -H -u $user rbenv global $v_ruby_version
     sudo -H -u $user gem install bundler
