@@ -179,10 +179,10 @@ function f_install_rails() {
     sudo -H -u $user echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $homepath/.bash_profile
     sudo -H -u $user echo 'eval "$(rbenv init -)"' >> $homepath/.bash_profile
     sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | sudo su - $user -c bash
-    sudo su - $user -c rbenv install $v_ruby_version
-    sudo su - $user -c rbenv global $v_ruby_version
-    sudo su - $user -c gem install bundler
-    sudo su - $user -c gem install rails
+    sudo su - $user -c "rbenv install $v_ruby_version"
+    sudo su - $user -c "rbenv global $v_ruby_version"
+    sudo su - $user -c "gem install bundler"
+    sudo su - $user -c "gem install rails"
   fi
   #NodeJS certificate & repo
   curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
