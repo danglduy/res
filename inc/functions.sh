@@ -23,12 +23,12 @@ function f_create_ssh_key() {
   v_root_ssh_keypath="/root/.ssh/authorized_keys"
   # Check root ssh key exist
   if sudo test -e $v_root_ssh_keypath; then
-    #If exist copy the key to the user and delete the root's key folder
+    # If exist copy the key to the user and delete the root's key folder
     sudo cp -R /root/.ssh $homepath/.ssh
     sudo chown -R $user:$user $homepath/.ssh
     sudo chmod 700 $homepath/.ssh
     sudo chmod 600 $homepath/.ssh/authorized_keys
-    sudo rm -R /root/.ssh
+    # sudo rm -R /root/.ssh
   else
     sudo -u $user mkdir -p $homepath/.ssh
     #If not exist create key file to the user
