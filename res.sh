@@ -22,7 +22,7 @@ v_disable_root_ssh_login=true
 # For Linode/normal user: Define this or you need to specify your own in ~/.ssh/authorized_keys
 # BE CAREFUL: If $passwordlogin == false, $publickey == '', you don't setup your droplet with any keys \
 # and you don't define your public key in ~/.ssh/authorized_keys, you WILL be blocked from SSH Login.
-v_public_key=''
+v_public_key='ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAqioXoc2tAgIfM+UXfsEgt5yy8xdvUkrh7SNOOMwtMpQpQ9if9Uu+kJk40CAYzeLIUXLI/KMNEAXxhOlsG4uIo/5r0a8PF0F5QVySUC9O0WZv6kqa0oQqEwfqW1yEP//0m/zbRKKHBXuZoduktqj54JsN/ExTxHn6tEjk/WR8soUSvHQkDwZkPUnZAN29f3zPhOm0XYl9AEyXiqFLiM3+bjuBPj2S7s3xe3aI5uJxKp2fS5Ha/0jjz0mDZekCkoS1+st0M+CM1FxJCYrnwGgvScOsRMeY8N3ZMT2WSxHf8xrdEJL0WtFgUIVgZtnBZBdxkakrj8odCG3t+lfIxof7gw== rsa-key-20180312'
 
 # Swap block size? 512 => 512MB swap, 1024 => 1GB swap.
 v_swap_bs=512
@@ -53,7 +53,7 @@ v_install_ruby_manager="rbenv"
 v_rails_server="puma"
 
 # Install PostgreSQL server? Option: true/false
-v_install_postgresql=false
+v_install_postgresql=true
 
 # Install nginx as reverse proxy? Option: true/false
 v_install_nginx_srv=true
