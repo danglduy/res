@@ -176,7 +176,7 @@ function f_install_rails() {
   elif [ $v_install_ruby_manager == "rbenv" ]; then
     # Install rbenv
     sudo -H -u $user sudo apt-get -y install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev \
-                                             zlib1g-dev libncurses5-dev libffi-dev libgdbm-dev
+                                             zlib1g-dev libncurses5-dev libffi-dev libgdbm-dev libsqlite3-dev
     sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | sudo su - $user -c bash
     sudo -H -u $user echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $homepath/.bash_profile
     sudo -H -u $user echo 'eval "$(rbenv init -)"' >> $homepath/.bash_profile
