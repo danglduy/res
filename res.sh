@@ -53,7 +53,7 @@ v_install_ruby_manager="rbenv"
 v_rails_server="puma"
 
 # Install PostgreSQL server? Option: true/false
-v_install_postgresql=true
+v_install_postgresql=false
 
 # Install nginx as reverse proxy? Option: true/false
 v_install_nginx_srv=true
@@ -65,7 +65,7 @@ v_install_firewall=true
 v_firewall="ufw"
 
 # Ports for opening.
-v_portslist=(22 80 443)
+v_portslist=(22 80 443 3000 5000)
 
 ### END OF SETTING VARIABLES SECTION
 
