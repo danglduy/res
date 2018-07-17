@@ -44,6 +44,10 @@ if [ $v_install_sublimetext == true ]; then
   f_install_sublimetext
 fi
 
+if [ $v_default_shell_zsh == true ]; then
+  f_install_zsh
+fi
+
 if [ $v_install_rails == true ]; then
   f_install_rails
 fi

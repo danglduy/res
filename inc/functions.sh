@@ -160,6 +160,17 @@ function f_install_nginx() {
   f_config_nginx
 }
 
+function f_install_zsh() {
+  #Intall zsh
+  sudo apt-get -y install zsh
+
+  # Change default shell to zsh
+  sudo chsh -s /bin/zsh
+
+  #Get and install oh-my-zsh
+  sudo -H -u $user sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+}
+
 function f_install_rails() {
   f_disable_sudo_password_for_apt
 
@@ -176,10 +187,14 @@ function f_install_rails() {
   elif [ $v_install_ruby_manager == "rbenv" ]; then
     # Install rbenv
     sudo -H -u $user sudo apt-get -y install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev \
-                                             zlib1g-dev libncurses5-dev libffi-dev libgdbm-dev libsqlite3-dev
+      zlib1g-dev libncurses5-dev libffi-dev libgdbm-dev libsqlite3-dev
     sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | sudo su - $user -c bash
     sudo -H -u $user echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $homepath/.bash_profile
     sudo -H -u $user echo 'eval "$(rbenv init -)"' >> $homepath/.bash_profile
+    if [ $v_default_shell_zsh == true ]; then
+      sudo -H -u $user echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $homepath/.zshrc
+      sudo -H -u $user echo 'eval "$(rbenv init -)"' >> $homepath/.zshrc
+    fi
     sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-doctor | sudo su - $user -c bash
     sudo su - $user -c "rbenv install $v_ruby_version"
     sudo su - $user -c "rbenv global $v_ruby_version"
