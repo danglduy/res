@@ -54,10 +54,6 @@ v_install_ruby=true
 # If v_install_ruby == true, ruby version?
 v_ruby_version="2.5.1"
 
-# Choose your rails server. Option "puma"/"passenger"
-# "passenger" is not tested.
-v_rails_server="puma"
-
 # Install PostgreSQL server? Option: true/false
 v_install_postgresql=false
 
@@ -78,7 +74,7 @@ v_install_firewall=true
 v_firewall="ufw"
 
 # Ports for opening.
-v_portslist=(22 80 443 3000 5000)
+v_portslist=(22 80 443 3000)
 
 ### END OF SETTING VARIABLES SECTION
 

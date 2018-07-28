@@ -101,6 +101,7 @@ function f_install_essential_packages {
 
 function f_add_domain {
   custom_domain="custom_domain-puma_https"
+  custom_domain_http="custom_domain-puma_http"
   read -p "Add a domain (y/n)? " add_domain
   printf "\n"
   if [ $add_domain == "y" ]; then
@@ -108,7 +109,9 @@ function f_add_domain {
     printf "\n"
     sudo mkdir /var/www/vhosts/$domain_name
     sudo cp inc/nginx/$custom_domain /etc/nginx/sites-available/$domain_name
+    sudo cp inc/nginx/$custom_domain_http /etc/nginx/sites-available/$domain_name-http
     sudo sed -i "s/domain_name/$domain_name/g" /etc/nginx/sites-available/$domain_name
+    sudo sed -i "s/domain_name/$domain_name/g" /etc/nginx/sites-available/$domain_name-http
     sudo ln -s /etc/nginx/sites-available/$domain_name /etc/nginx/sites-enabled/$domain_name
   fi
 }
