@@ -151,7 +151,7 @@ function f_install_ruby_manager {
     f_enable_sudo_password_for_apt
   elif [ $v_ruby_manager == "rbenv" ]; then
     # Install rbenv
-    sudo -H -u $user sudo apt-get -y install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev \
+    sudo apt-get -y install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev \
       zlib1g-dev libncurses5-dev libffi-dev libgdbm-dev libsqlite3-dev
     sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | sudo su - $user -c bash
     sudo -H -u $user echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $homepath/.bash_profile
@@ -159,7 +159,7 @@ function f_install_ruby_manager {
     sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-doctor | sudo su - $user -c bash
 
     if [ $v_install_ruby == true ]; then
-      sudo -H -u $user -i rbenv install $v_ruby_version
+      sudo -H -u $user -i rbenv install --verbose $v_ruby_version
       sudo -H -u $user -i rbenv global $v_ruby_version
       sudo -H -u $user -i rbenv rehash
       sudo -H -u $user -i gem install bundler
