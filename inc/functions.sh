@@ -193,16 +193,16 @@ function f_install_postgresql {
 }
 
 function f_install_mariadb {
-  apt-get -y install mariadb-server libmariadbclient-dev-compat
+  sudo apt-get -y install mariadb-server libmariadbclient-dev-compat
 }
 
 function f_install_mysql {
-  apt-get -y install mysql-server libmysqlclient-dev
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server libmysqlclient-dev
 }
 
 function f_secure_mariadb {
   sudo mysql -uroot << EOF
-  UPDATE mysql.user SET Password=PASSWORD("$MYSQL_ROOT_PASSWORD") WHERE User='root';
+  UPDATE mysql.user SET password=PASSWORD("$MYSQL_ROOT_PASSWORD") WHERE User='root';
   DELETE FROM mysql.user WHERE user='root' AND host NOT IN ('localhost', '127.0.0.1', '::1');
   DELETE FROM mysql.user WHERE user='';
   DROP DATABASE IF EXISTS test;
@@ -213,11 +213,11 @@ EOF
 
 function f_secure_mysql {
   sudo mysql -uroot << EOF
-  UPDATE mysql.user SET Authentication_string=PASSWORD("$MYSQL_ROOT_PASSWORD") WHERE User='root';
+  UPDATE mysql.user SET authentication_string=PASSWORD("$MYSQL_ROOT_PASSWORD") WHERE User='root';
   DELETE FROM mysql.user WHERE user='root' AND host NOT IN ('localhost', '127.0.0.1', '::1');
   DELETE FROM mysql.user WHERE user='';
   DROP DATABASE IF EXISTS test;
-  UPDATE mysql.user SET plugin='native_authentication' WHERE user='root';
+  UPDATE mysql.user SET plugin='mysql_native_password' WHERE user='root';
   FLUSH PRIVILEGES;
 EOF
 }
