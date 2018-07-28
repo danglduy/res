@@ -70,7 +70,7 @@ if [ $v_install_mdb == true ]; then
       f_secure_mysql
     else
       f_install_mariadb
-      f_secure_mysql
+      f_secure_mariadb
     fi
   fi
   f_secure_db
