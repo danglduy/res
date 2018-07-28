@@ -1,5 +1,5 @@
 #!/bin/bash
-function f_create_user() {
+function f_create_user {
   # Create new user & prompt for password creation
   read -p "Your username: " user
   printf "\n"
@@ -8,18 +8,18 @@ function f_create_user() {
   sudo usermod -a -G sudo $user
 }
 
-function f_disable_root_ssh_login() {
+function f_disable_root_ssh_login {
   # Disable SSH Root Login
   sudo sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
 }
 
-function f_disable_ssh_password() {
+function f_disable_ssh_password {
   # Disable SSH Password Authentication
   sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
   sudo sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
 }
 
-function f_create_ssh_key() {
+function f_create_ssh_key {
   v_root_ssh_keypath="/root/.ssh/authorized_keys"
   # Check root ssh key exist
   if sudo test -e $v_root_ssh_keypath; then
@@ -41,7 +41,7 @@ function f_create_ssh_key() {
   sudo service sshd restart
 }
 
-function f_create_swap() {
+function f_create_swap {
   # Create swap disk image if the system doesn't have swap.
   if [ $distro_code == "trusty" ]; then
     checkswap="$(sudo swapon --summary)"
@@ -59,17 +59,17 @@ function f_create_swap() {
   fi
 }
 
-function f_disable_sudo_password_for_apt() {
+function f_disable_sudo_password_for_apt {
   sudo touch /etc/sudoers.d/tmpsudo$user
   echo "$user ALL=(ALL) NOPASSWD: /usr/bin/apt-get" | sudo tee /etc/sudoers.d/tmpsudo$user
   sudo chmod 0440 /etc/sudoers.d/tmpsudo$user
 }
 
-function f_enable_sudo_password_for_apt() {
+function f_enable_sudo_password_for_apt {
   sudo rm /etc/sudoers.d/tmpsudo$user
 }
 
-function f_install_sublimetext() {
+function f_install_sublimetext {
   #Sublime Text
   wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
   echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
@@ -77,7 +77,7 @@ function f_install_sublimetext() {
   sudo apt-get -y install sublime-text
 }
 
-function f_install_vncserver() {
+function f_install_vncserver {
   sudo apt-get -y install vnc4server
   # Create vncserver launch file
   sudo -H -u $user touch $homepath/vncserver.sh
@@ -89,17 +89,17 @@ function f_install_vncserver() {
   fi
 }
 
-function f_install_gui() {
+function f_install_gui {
   sudo apt-get update
   sudo apt-get -y install xfce4 xfce4-goodies gnome-icon-theme
 }
 
-function f_install_essential_packages() {
+function f_install_essential_packages {
   sudo apt-get -y update
   sudo apt-get -y install dirmngr whois apt-transport-https unzip
 }
 
-function f_add_domain() {
+function f_add_domain {
   custom_domain="custom_domain-puma_https"
   read -p "Add a domain (y/n)? " add_domain
   printf "\n"
@@ -113,7 +113,7 @@ function f_add_domain() {
   fi
 }
 
-function f_config_nginx() {
+function f_config_nginx {
   nginx_debian="nginx_debian.conf"
   sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
   sudo rm -f /etc/nginx/nginx.conf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default /etc/nginx/conf.d/*
@@ -126,13 +126,13 @@ function f_config_nginx() {
 
 }
 
-function f_install_nginx() {
+function f_install_nginx {
   sudo apt-get update
   sudo apt-get install -y nginx-extras
   f_config_nginx
 }
 
-function f_install_ruby_manager() {
+function f_install_ruby_manager {
   if [ $v_ruby_manager == "rvm" ]; then
     f_disable_sudo_password_for_apt
     # sudo -H -u $user gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
@@ -175,7 +175,7 @@ function f_install_ruby_manager() {
   sudo apt-get -y install nodejs yarn
 }
 
-function f_install_postgresql_client() {
+function f_install_postgresql_client {
   # Postgresql certificate & repo
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
   sudo touch /etc/apt/sources.list.d/pgdg.list
@@ -184,20 +184,20 @@ function f_install_postgresql_client() {
   sudo apt-get -y install postgresql-client-10 libpq-dev
 }
 
-function f_install_postgresql() {
+function f_install_postgresql {
   f_install_postgresql_client
   sudo apt-get -y install postgresql-10
 }
 
-function f_install_mariadb() {
+function f_install_mariadb {
   apt-get -y install mariadb-server libmariadbclient-dev-compat
 }
 
-function f_install_mysql() {
+function f_install_mysql {
   apt-get -y install mysql-server libmysqlclient-dev
 }
 
-function f_secure_mariadb() {
+function f_secure_mariadb {
   sudo mysql -uroot << EOF
   UPDATE mysql.user SET Password=PASSWORD("$MYSQL_ROOT_PASSWORD") WHERE User='root';
   DELETE FROM mysql.user WHERE user='root' AND host NOT IN ('localhost', '127.0.0.1', '::1');
@@ -208,7 +208,7 @@ function f_secure_mariadb() {
 EOF
 }
 
-function f_secure_mysql() {
+function f_secure_mysql {
   sudo mysql -uroot << EOF
   UPDATE mysql.user SET Authentication_string=PASSWORD("$MYSQL_ROOT_PASSWORD") WHERE User='root';
   DELETE FROM mysql.user WHERE user='root' AND host NOT IN ('localhost', '127.0.0.1', '::1');
@@ -219,7 +219,7 @@ function f_secure_mysql() {
 EOF
 }
 
-function f_install_firewall() {
+function f_install_firewall {
   if [ $v_firewall == "ufw" ]; then
     sudo apt-get -y install ufw
     for i in "${v_portslist[@]}"
@@ -244,7 +244,7 @@ function f_install_firewall() {
   fi
 }
 
-function f_postinstall() {
+function f_postinstall {
   sudo apt-get -y update
   sudo apt-get -y upgrade
   sudo apt-get -y dist-upgrade
