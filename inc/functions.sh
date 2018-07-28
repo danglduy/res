@@ -142,7 +142,7 @@ function f_install_ruby_manager {
     sudo -H -u $user curl -sSL https://rvm.io/mpapis.asc | sudo -H -u $user gpg --import -
     sudo -H -u $user \curl -sSL https://get.rvm.io | sudo -H -u $user bash
 
-    if [ $f_install_ruby == true ]; then
+    if [ $v_install_ruby == true ]; then
       sudo -H -u $user rvm install $v_ruby_version
       sudo -H -u $user rvm defaults $v_ruby_version
       sudo -H -u $user gem install bundler
@@ -158,7 +158,7 @@ function f_install_ruby_manager {
     sudo -H -u $user echo 'eval "$(rbenv init -)"' >> $homepath/.bash_profile
     sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-doctor | sudo su - $user -c bash
 
-    if [ $f_install_ruby == true ]; then
+    if [ $v_install_ruby == true ]; then
       sudo -H -u $user -i rbenv install $v_ruby_version
       sudo -H -u $user -i rbenv global $v_ruby_version
       sudo -H -u $user -i rbenv rehash
