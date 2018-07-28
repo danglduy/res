@@ -25,6 +25,7 @@ fi
 if [ $v_disable_ssh_password == true ]; then
   f_disable_ssh_password
 fi
+
 if [ $user != "root" ]; then
   # Only create ssh key if the current user is not root or a new user is created
   if [ $v_create_ssh_key == true ]; then
@@ -48,8 +49,8 @@ if [ $v_default_shell_zsh == true ]; then
   f_install_zsh
 fi
 
-if [ $v_install_rails == true ]; then
-  f_install_rails
+if [ $v_install_ruby_manager == true ]; then
+  f_install_ruby_manager
 fi
 
 if [ $v_install_postgresql == true ]; then

@@ -59,17 +59,6 @@ function f_create_swap() {
   fi
 }
 
-function f_config_nano_erb() {
-  # Nano config for erb
-  sudo wget -P /usr/share/nano/ https://raw.githubusercontent.com/scopatz/nanorc/master/erb.nanorc
-
-  sudo -u $user cat <<EOT >> $homepath/.nanorc
-  set tabsize 2
-  set tabstospaces
-  include "/usr/share/nano/erb.nanorc"
-EOT
-}
-
 function f_disable_sudo_password_for_apt() {
   sudo touch /etc/sudoers.d/tmpsudo$user
   echo "$user ALL=(ALL) NOPASSWD: /usr/bin/apt-get" | sudo tee /etc/sudoers.d/tmpsudo$user
@@ -112,9 +101,6 @@ function f_install_essential_packages() {
 
 function f_add_domain() {
   custom_domain="custom_domain-puma_https"
-  if [ $v_rails_server == "passenger" ]; then
-    custom_domain="custom_domain_passenger-http"
-  fi
   read -p "Add a domain (y/n)? " add_domain
   printf "\n"
   if [ $add_domain == "y" ]; then
@@ -129,14 +115,10 @@ function f_add_domain() {
 
 function f_config_nginx() {
   nginx_debian="nginx_debian.conf"
-  if [ $v_rails_server == "passenger" ]; then
-    nginx_debian="nginx_debian_passenger.conf"
-  fi
   sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
-  sudo rm /etc/nginx/nginx.conf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default /etc/nginx/passenger.conf /etc/nginx/conf.d/*
+  sudo rm -f /etc/nginx/nginx.conf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default /etc/nginx/conf.d/*
   sudo cp inc/nginx/$nginx_debian /etc/nginx/nginx.conf
   sudo cp inc/nginx/default /etc/nginx/sites-available/default
-  sudo cp inc/nginx/passenger.conf /etc/nginx/passenger.conf
   sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
   sudo mkdir -p /var/www/vhosts
   f_add_domain
@@ -145,63 +127,43 @@ function f_config_nginx() {
 }
 
 function f_install_nginx() {
-  sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
-  sudo touch /etc/apt/sources.list.d/passenger.list
-  sudo echo "deb https://oss-binaries.phusionpassenger.com/apt/passenger $distro_code main" | sudo tee /etc/apt/sources.list.d/passenger.list
   sudo apt-get update
   sudo apt-get install -y nginx-extras
-  if [ $v_rails_server == "passenger" ]; then
-    if [ $distro == "ubuntu" ] || [ $distro_code == "jessie" ]; then
-      sudo apt-get install -y passenger
-    elif [ $distro == "debian" ]; then
-      sudo apt-get install -y libnginx-mod-http-passenger
-    fi
-  fi
   f_config_nginx
 }
 
-function f_install_zsh() {
-  #Intall zsh
-  sudo apt-get -y install zsh
-
-  # Change default shell to zsh
-  sudo chsh -s /bin/zsh
-
-  #Get and install oh-my-zsh
-  sudo -H -u $user sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-}
-
-function f_install_rails() {
-  f_disable_sudo_password_for_apt
-
-  if [ $v_install_ruby_manager == "rvm" ]; then
-    # Install rvm, ruby and rails for $user user
+function f_install_ruby_manager() {
+  if [ $v_ruby_manager == "rvm" ]; then
+    f_disable_sudo_password_for_apt
     # sudo -H -u $user gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
     sudo -H -u $user curl -sSL https://rvm.io/mpapis.asc | sudo -H -u $user gpg --import -
     sudo -H -u $user \curl -sSL https://get.rvm.io | sudo -H -u $user bash
-    sudo -H -u $user rvm install $v_ruby_version
-    sudo -H -u $user rvm defaults $v_ruby_version
-    sudo -H -u $user gem install bundler
-    sudo -H -u $user gem install rails
+
+    if [ $f_install_ruby == true ]; then
+      sudo -H -u $user rvm install $v_ruby_version
+      sudo -H -u $user rvm defaults $v_ruby_version
+      sudo -H -u $user gem install bundler
+    fi
+
     f_enable_sudo_password_for_apt
-  elif [ $v_install_ruby_manager == "rbenv" ]; then
+  elif [ $v_ruby_manager == "rbenv" ]; then
     # Install rbenv
     sudo -H -u $user sudo apt-get -y install autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev \
       zlib1g-dev libncurses5-dev libffi-dev libgdbm-dev libsqlite3-dev
     sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-installer | sudo su - $user -c bash
     sudo -H -u $user echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $homepath/.bash_profile
     sudo -H -u $user echo 'eval "$(rbenv init -)"' >> $homepath/.bash_profile
-    if [ $v_default_shell_zsh == true ]; then
-      sudo -H -u $user echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> $homepath/.zshrc
-      sudo -H -u $user echo 'eval "$(rbenv init -)"' >> $homepath/.zshrc
-    fi
     sudo -H -u $user curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-doctor | sudo su - $user -c bash
-    sudo su - $user -c "rbenv install $v_ruby_version"
-    sudo su - $user -c "rbenv global $v_ruby_version"
-    sudo su - $user -c "rbenv rehash"
-    sudo su - $user -c "gem install bundler"
-    sudo su - $user -c "gem install rails"
+
+    if [ $f_install_ruby == true ]; then
+      sudo -H -u $user -i rbenv install $v_ruby_version
+      sudo -H -u $user -i rbenv global $v_ruby_version
+      sudo -H -u $user -i rbenv rehash
+      sudo -H -u $user -i gem install bundler
+    fi
+
   fi
+
   #NodeJS certificate & repo
   curl -sL https://deb.nodesource.com/setup_8.x | sudo bash -
 
@@ -211,8 +173,9 @@ function f_install_rails() {
 
   sudo apt-get -y update
   sudo apt-get -y install nodejs yarn
-  f_config_nano_erb
 }
+
+
 
 function f_install_postgresql() {
   # Postgresql certificate & repo

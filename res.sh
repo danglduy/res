@@ -42,17 +42,17 @@ v_install_sublimetext=false
 # Access VNC from localhost only (only if $v_install_vncserver== true). Option: true/false
 v_vnc_localhost=true
 
-# Change default shell to zsh and install oh-my-zsh? Option: true/false
-v_default_shell_zsh=true
+# Install ruby environment manager? Option: true/false
+v_install_ruby_manager=true
 
-# Install Rails? Option: true/false
-v_install_rails=true
+# Ruby environment manager option? Option: "rvm"/"rbenv"
+v_ruby_manager="rbenv"
 
-# Ruby version?
+# Install first/global ruby? Option: true/false
+v_install_ruby=true
+
+# If v_install_ruby == true, ruby version?
 v_ruby_version="2.5.1"
-
-# RVM or rbenv? Option: "rvm"/"rbenv"
-v_install_ruby_manager="rbenv"
 
 # Choose your rails server. Option "puma"/"passenger"
 # "passenger" is not tested.
@@ -60,6 +60,12 @@ v_rails_server="puma"
 
 # Install PostgreSQL server? Option: true/false
 v_install_postgresql=false
+
+# Install MySQL/MariaDB server? Option: true/false
+v_install_mdb=true
+
+# MySQL server option? Option: "mariadb"/"mysql"
+v_mysql_edition="mariadb"
 
 # Install nginx as reverse proxy? Option: true/false
 v_install_nginx_srv=true
