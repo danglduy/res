@@ -12,6 +12,11 @@ else
   fi
 fi
 
+if [ $v_install_mdb == true  ]; then
+  read -sp "Set mysql root password: " MYSQL_ROOT_PASSWORD
+  printf "\n"
+fi
+
 f_create_swap
 
 f_install_essential_packages
