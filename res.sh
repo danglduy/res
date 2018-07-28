@@ -64,8 +64,9 @@ v_install_postgresql=false
 # Install MySQL/MariaDB server? Option: true/false
 v_install_mdb=true
 
-# MySQL server option? Option: "mariadb"/"mysql"
-v_mysql_edition="mariadb"
+# MySQL server option? Option: "mariadb"/"mysql".
+# If the option is not available, the other will be selected.
+v_mdb_edition="mariadb"
 
 # Install nginx as reverse proxy? Option: true/false
 v_install_nginx_srv=true

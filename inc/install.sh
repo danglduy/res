@@ -45,10 +45,6 @@ if [ $v_install_sublimetext == true ]; then
   f_install_sublimetext
 fi
 
-if [ $v_default_shell_zsh == true ]; then
-  f_install_zsh
-fi
-
 if [ $v_install_ruby_manager == true ]; then
   f_install_ruby_manager
 fi
@@ -59,6 +55,21 @@ else
   f_install_postgresql_client
 fi
 
+if [ $v_install_mdb == true ]; then
+  if [ $distro == "debian"  ]; then
+    f_install_mariadb
+    f_secure_mariadb
+  elif [ $distro == "ubuntu" ]; then
+    if [ $v_mdb_edition == "mysql" ]; then
+      f_install_mysql
+      f_secure_mysql
+    else
+      f_install_mariadb
+      f_secure_mysql
+    fi
+  fi
+  f_secure_db
+fi
 
 if [ $v_install_nginx_srv == true ]; then
   f_install_nginx

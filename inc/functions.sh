@@ -175,17 +175,6 @@ function f_install_ruby_manager() {
   sudo apt-get -y install nodejs yarn
 }
 
-
-
-function f_install_postgresql() {
-  # Postgresql certificate & repo
-  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-  sudo touch /etc/apt/sources.list.d/pgdg.list
-  echo "deb http://apt.postgresql.org/pub/repos/apt/ $distro_code-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
-  sudo apt-get -y update
-  sudo apt-get -y install postgresql-10 postgresql-client-10 libpq-dev
-}
-
 function f_install_postgresql_client() {
   # Postgresql certificate & repo
   wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
@@ -193,6 +182,41 @@ function f_install_postgresql_client() {
   echo "deb http://apt.postgresql.org/pub/repos/apt/ $distro_code-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
   sudo apt-get -y update
   sudo apt-get -y install postgresql-client-10 libpq-dev
+}
+
+function f_install_postgresql() {
+  f_install_postgresql_client
+  sudo apt-get -y install postgresql-10
+}
+
+function f_install_mariadb() {
+  apt-get -y install mariadb-server libmariadbclient-dev-compat
+}
+
+function f_install_mysql() {
+  apt-get -y install mysql-server libmysqlclient-dev
+}
+
+function f_secure_mariadb() {
+  sudo mysql -uroot << EOF
+  UPDATE mysql.user SET Password=PASSWORD("$MYSQL_ROOT_PASSWORD") WHERE User='root';
+  DELETE FROM mysql.user WHERE user='root' AND host NOT IN ('localhost', '127.0.0.1', '::1');
+  DELETE FROM mysql.user WHERE user='';
+  DROP DATABASE IF EXISTS test;
+  UPDATE mysql.user SET plugin='' WHERE user='root';
+  FLUSH PRIVILEGES;
+EOF
+}
+
+function f_secure_mysql() {
+  sudo mysql -uroot << EOF
+  UPDATE mysql.user SET Authentication_string=PASSWORD("$MYSQL_ROOT_PASSWORD") WHERE User='root';
+  DELETE FROM mysql.user WHERE user='root' AND host NOT IN ('localhost', '127.0.0.1', '::1');
+  DELETE FROM mysql.user WHERE user='';
+  DROP DATABASE IF EXISTS test;
+  UPDATE mysql.user SET plugin='native_authentication' WHERE user='root';
+  FLUSH PRIVILEGES;
+EOF
 }
 
 function f_install_firewall() {
