@@ -17,6 +17,13 @@ if [ $v_install_mdb == true  ]; then
   printf "\n"
 fi
 
+read -p "Add a domain (y/n)? " add_domain
+printf "\n"
+if [ $add_domain == "y" ]; then
+  read -p "Write your domain name: " domain_name
+  printf "\n"
+fi
+
 f_create_swap
 
 f_install_essential_packages

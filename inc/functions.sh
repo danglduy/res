@@ -102,18 +102,12 @@ function f_install_essential_packages {
 function f_add_domain {
   custom_domain="custom_domain-puma_https"
   custom_domain_http="custom_domain-puma_http"
-  read -p "Add a domain (y/n)? " add_domain
-  printf "\n"
-  if [ $add_domain == "y" ]; then
-    read -p "Write your domain name: " domain_name
-    printf "\n"
-    sudo mkdir /var/www/vhosts/$domain_name
-    sudo cp inc/nginx/$custom_domain /etc/nginx/sites-available/$domain_name
-    sudo cp inc/nginx/$custom_domain_http /etc/nginx/sites-available/$domain_name-http
-    sudo sed -i "s/domain_name/$domain_name/g" /etc/nginx/sites-available/$domain_name
-    sudo sed -i "s/domain_name/$domain_name/g" /etc/nginx/sites-available/$domain_name-http
-    sudo ln -s /etc/nginx/sites-available/$domain_name /etc/nginx/sites-enabled/$domain_name
-  fi
+  sudo mkdir /var/www/vhosts/$domain_name
+  sudo cp inc/nginx/$custom_domain /etc/nginx/sites-available/$domain_name
+  sudo cp inc/nginx/$custom_domain_http /etc/nginx/sites-available/$domain_name-http
+  sudo sed -i "s/domain_name/$domain_name/g" /etc/nginx/sites-available/$domain_name
+  sudo sed -i "s/domain_name/$domain_name/g" /etc/nginx/sites-available/$domain_name-http
+  sudo ln -s /etc/nginx/sites-available/$domain_name /etc/nginx/sites-enabled/$domain_name
 }
 
 function f_config_nginx {
@@ -124,7 +118,9 @@ function f_config_nginx {
   sudo cp inc/nginx/default /etc/nginx/sites-available/default
   sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
   sudo mkdir -p /var/www/vhosts
-  f_add_domain
+  if [ $add_domain == "y" ]; then
+    f_add_domain
+  fi
   sudo chown -R www-data:www-data /var/www
 
 }
