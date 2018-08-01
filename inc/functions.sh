@@ -172,7 +172,7 @@ function f_install_ruby_manager {
 
   #Yarn certificate & repo
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
   sudo apt-get -y update
   sudo apt-get -y install nodejs yarn
@@ -193,7 +193,7 @@ function f_install_postgresql {
 }
 
 function f_install_mariadb {
-  sudo apt-get -y install mariadb-server libmariadbclient-dev-compat
+  sudo apt-get -y install mariadb-server libmariadb-client-lgpl-dev
 }
 
 function f_install_mysql {
